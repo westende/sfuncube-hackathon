@@ -16,8 +16,19 @@ function getSunPowerStatus(callback) {
         }
     });
 }
-getSunPowerStatus(function(energy) {
-    console.log('Solar power (UV): ' + energy);
+$(function() {
+    getSunPowerStatus(function(energy) {
+        if (energy > 0) {
+            $('#network-status-solar').hide()
+                .html('=>')
+                .fadeIn('slow');
+        }
+        else {
+            $('#network-status-solar').hide()
+                .html('=X>')
+                .fadeIn('slow');
+        }
+    });
 });
 
 function listDbs() {
@@ -127,7 +138,18 @@ function initChart() {
 <style>
 html { background-color: ;}
 h1 {text-align: center; margin: auto auto; font-family: Helvetica; font-size: 120px;}
+.big-ass-font-size {
+    font-size: 2em;
+}
 </style>
 <h1>Ice-Cream-Ohmmeter</h1>
 <div id='chart_div'></div><div id="bar_div" style="width: 900px; height: 100px;"></div>
+
+<div id="network-status" class="big-ass-font-size">
+    <span>Sun</span>
+    <span id="network-status-solar"></span>
+    <span>House</span>
+    <span id="network-status-grid"></span>
+    <span>Grid</span>
+</div>
 </html>

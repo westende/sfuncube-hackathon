@@ -48,12 +48,12 @@ function insertReading(reading) {
     });   
 }
 
-google.load('visualization', '1', {packages:['gauge']});
+google.load('visualization', '1', {packages:['gauge', 'corechart']});
 google.setOnLoadCallback(initChart);
 var chart;
 
 var chartOptions = {
- width: 500, height: 500,
+ width: 200, height: 200,
  redFrom: 90, redTo: 100,
  yellowFrom:75, yellowTo: 90,
  minorTicks: 5
@@ -68,13 +68,11 @@ function getLatestReading() {
         contentType: 'application/json',
         success: function(data) {
             var wattage = data[0].reading;
-            $('h1').text(wattage);
             
             var chartData = google.visualization.arrayToDataTable([
              ['Label', 'Value'],
              ['Power', wattage],
             ]);
-            
             
             chart.draw(chartData, chartOptions);
         }
@@ -85,11 +83,24 @@ function initChart() {
     chart = new google.visualization.Gauge(document.getElementById('chart_div'));
     var chartData = google.visualization.arrayToDataTable([
      ['Label', 'Value'],
-     ['Power', 0],
+     ['Power (W)', 0],
     ]);
     
     chart.draw(chartData, chartOptions);
     setInterval(getLatestReading, 5000);
+    
+    var data = google.visualization.arrayToDataTable([
+      ['', '2013', '2012'],
+      ['',  109, 120],
+    ]);
+
+    var options = {
+      title: 'Power usage (Wh)',
+    //  vAxis: {title: 'Year',  titleTextStyle: {color: 'red'}}
+    };
+
+    var chart2 = new google.visualization.BarChart(document.getElementById('bar_div'));
+    chart2.draw(data, options);
 }
    
 //listDbs();
@@ -102,6 +113,6 @@ function initChart() {
 html { background-color: ;}
 h1 {text-align: center; margin: auto auto; font-family: Helvetica; font-size: 120px;}
 </style>
-<!-- <h1></h1> -->
-<div id='chart_div'></div>
+<h1>Ice-Cream-Ohmmeter</h1>
+<div id='chart_div'></div><div id="bar_div" style="width: 900px; height: 100px;"></div>
 </html>

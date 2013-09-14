@@ -4,6 +4,21 @@
 
 <script>
 var API_KEY= 'BSup0ifQbuh2_NSrxZUUcKsgjtJxuf0_';
+var WUNDERGROUND_API_KEY = '5794ac21ec0b9cbb';
+
+function getSunPowerStatus(callback) {
+    $.ajax({
+        url : 'http://api.wunderground.com/api/' + WUNDERGROUND_API_KEY + '/conditions/q/CA/San_Francisco.json',
+        data: null,
+        dataType: "jsonp",
+        success: function(data) {
+            callback(data.current_observation.UV);
+        }
+    });
+}
+getSunPowerStatus(function(energy) {
+    console.log('Solar power (UV): ' + energy);
+});
 
 function listDbs() {
     $.ajax({

@@ -1,0 +1,10 @@
+.big-ass-font-size {
+    font-size: 2em;
+}
+html { background-color: ;}
+h1 {text-align: center; margin: auto auto; font-family: Helvetica; font-size: 120px;}
+#area_div { width: 900px; height: 300px; }
+#slider { width: 300px; position: absolute;
+bottom: 115px; left: 125px; width:900px; width: 670px;}
+.ui-widget-content { background: none; border: none;}
+#slider_data { position: relative; top: -300px; display: none;}

@@ -4,7 +4,34 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <script>
-/*var API_KEY= 'BSup0ifQbuh2_NSrxZUUcKsgjtJxuf0_';
+var API_KEY= 'BSup0ifQbuh2_NSrxZUUcKsgjtJxuf0_';
+var WUNDERGROUND_API_KEY = '5794ac21ec0b9cbb';
+
+function getSunPowerStatus(callback) {
+    $.ajax({
+        url : 'http://api.wunderground.com/api/' + WUNDERGROUND_API_KEY + '/conditions/q/CA/San_Francisco.json',
+        data: null,
+        dataType: "jsonp",
+        success: function(data) {
+            callback(data.current_observation.UV);
+        }
+    });
+}
+
+$(function() {
+    getSunPowerStatus(function(energy) {
+        if (energy > 0) {
+            $('#network-status-solar').hide()
+                .html('=>')
+                .fadeIn('slow');
+        }
+        else {
+            $('#network-status-solar').hide()
+                .html('=X>')
+                .fadeIn('slow');
+        }
+    });
+});
 
 function listDbs() {
     $.ajax({
@@ -47,7 +74,7 @@ function insertReading(reading) {
             console.log(data);
         }
     });   
-}*/
+}
 
 google.load('visualization', '1', {packages:['gauge', 'corechart']});
 google.setOnLoadCallback(initCharts);
@@ -240,6 +267,9 @@ $(function() {
 </script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <style>
+    .big-ass-font-size {
+        font-size: 2em;
+    }
     html { background-color: ;}
     h1 {text-align: center; margin: auto auto; font-family: Helvetica; font-size: 120px;}
     #area_div { width: 900px; height: 300px; }
@@ -259,5 +289,13 @@ $(function() {
         <div>This year <span id="thisyear">$<span class="cost"></span><span class="energy"> kWh</span></span></div>
     </div>
 </div>
+<div id='chart_div'></div><div id="bar_div" style="width: 900px; height: 100px;"></div>
 
+<div id="network-status" class="big-ass-font-size">
+    <span>Sun</span>
+    <span id="network-status-solar"></span>
+    <span>House</span>
+    <span id="network-status-grid"></span>
+    <span>Grid</span>
+</div>
 </html>

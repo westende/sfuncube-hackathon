@@ -1,0 +1,107 @@
+<html>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+
+<script>
+var API_KEY= 'BSup0ifQbuh2_NSrxZUUcKsgjtJxuf0_';
+
+function listDbs() {
+    $.ajax({
+        url : 'https://api.mongolab.com/api/1/databases?apiKey=' + API_KEY,
+        data: null,
+        success: function(data) {
+            console.log(data);
+        }
+    });   
+}
+
+function listCollections() {
+    $.ajax({
+        url : 'https://api.mongolab.com/api/1/databases/p1data/collections?apiKey=' + API_KEY,
+        data: null,
+        success: function(data) {
+            console.log(data);
+        }
+    });   
+}
+
+function listObjects() {
+    $.ajax({
+        url : 'https://api.mongolab.com/api/1/databases/p1data/collections/live?apiKey=' + API_KEY,
+        data: null,
+        success: function(data) {
+            console.log(data);
+        }
+    });   
+}
+
+function insertReading(reading) {
+    var API_KEY= 'BSup0ifQbuh2_NSrxZUUcKsgjtJxuf0_';
+    $.ajax({
+        url : 'https://api.mongolab.com/api/1/databases/p1data/collections/live?apiKey=' + API_KEY,
+        data: JSON.stringify( { 'timestamp' : new Date().getTime(), 'reading' : reading } ),
+        type: 'POST',
+        contentType: 'application/json',
+        success: function(data) {
+            console.log(data);
+        }
+    });   
+}
+
+google.load('visualization', '1', {packages:['gauge']});
+google.setOnLoadCallback(initChart);
+var chart;
+
+var chartOptions = {
+ width: 500, height: 500,
+ redFrom: 90, redTo: 100,
+ yellowFrom:75, yellowTo: 90,
+ minorTicks: 5
+};
+
+function getLatestReading() {
+    console.log('getting reading');
+    var API_KEY= 'BSup0ifQbuh2_NSrxZUUcKsgjtJxuf0_';
+    $.ajax({
+        url : 'https://api.mongolab.com/api/1/databases/p1data/collections/live?apiKey=' + API_KEY + '&s={"timestamp" : -1}&l=1',
+        type: 'GET',
+        contentType: 'application/json',
+        success: function(data) {
+            var wattage = data[0].reading;
+            $('h1').text(wattage);
+            
+            var chartData = google.visualization.arrayToDataTable([
+             ['Label', 'Value'],
+             ['Power', wattage],
+            ]);
+            
+            
+            chart.draw(chartData, chartOptions);
+        }
+    });        
+}
+
+function initChart() {   
+    chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+    var chartData = google.visualization.arrayToDataTable([
+     ['Label', 'Value'],
+     ['Power', 0],
+    ]);
+    
+    chart.draw(chartData, chartOptions);
+    setInterval(getLatestReading, 5000);
+}
+   
+//listDbs();
+//listCollections();
+//listObjects();
+//insertReading(44);
+//getLatestReading();
+</script>
+<style>
+html { background-color: ;}
+h1 {text-align: center; margin: auto auto; font-family: Helvetica; font-size: 120px;}
+</style>
+<!-- <h1></h1> -->
+<div id='chart_div'></div>
+</html>

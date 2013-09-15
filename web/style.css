@@ -162,6 +162,14 @@ body {
 .status-neg {
     background: transparent url('img/arrow_red.png');
 }
+.status-null {
+    background: transparent url('img/x-icon.png');
+}
+
+#usage-status {
+    margin-top: 1em;
+    text-align: center;
+}
 
 .ui-widget-content {
     border: none;

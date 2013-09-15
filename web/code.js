@@ -32,7 +32,7 @@ var PRICE_PER_ICECREAM = 2.00;
       $('#usage-status-amount').css({ 'color': '#00FF00' });
     }
 
-    $('#usage-status-amount').html('$ ' + Math.abs(gridUsage * UNIT_PRICE).toFixed(2) + ' / hour');
+    $('#usage-status-amount').html('$ ' + Math.abs(gridUsage * UNIT_PRICE * 2).toFixed(2) + ' / hour');
   });
 
   $(window).on('newEnergyReading', function(ev, data) {

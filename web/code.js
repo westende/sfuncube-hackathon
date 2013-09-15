@@ -106,49 +106,6 @@ var UNIT_PRICE = 170; // Per kW
   });
 })();
 
-function listDbs() {
-    $.ajax({
-        url : 'https://api.mongolab.com/api/1/databases?apiKey=' + API_KEY,
-        data: null,
-        success: function(data) {
-            console.log(data);
-        }
-    });   
-}
-
-function listCollections() {
-    $.ajax({
-        url : 'https://api.mongolab.com/api/1/databases/p1data/collections?apiKey=' + API_KEY,
-        data: null,
-        success: function(data) {
-            console.log(data);
-        }
-    });   
-}
-
-function listObjects() {
-    $.ajax({
-        url : 'https://api.mongolab.com/api/1/databases/p1data/collections/live?apiKey=' + API_KEY,
-        data: null,
-        success: function(data) {
-            console.log(data);
-        }
-    });   
-}
-
-function insertReading(reading) {
-    $.ajax({
-        url : 'https://api.mongolab.com/api/1/databases/p1data/collections/live?apiKey=' + API_KEY,
-        data: JSON.stringify( { 'timestamp' : new Date().getTime(), 'reading' : reading } ),
-        type: 'POST',
-        contentType: 'application/json',
-        success: function(data) {
-            console.log(data);
-        }
-    });   
-}
-
-
 function getLatestReading() {
     var API_KEY= 'BSup0ifQbuh2_NSrxZUUcKsgjtJxuf0_';
     $.ajax({
@@ -177,7 +134,7 @@ var chart;
 var target = 5;
 var progress = 1;
 var areaChart;
-var currentDayOfMonth = 14;
+var currentDayOfMonth = 15;
 
 var rawData = [
       ['dummy', null, null],
@@ -195,7 +152,7 @@ var rawData = [
       ['12', 50, 90],
       ['13', 60, 100],
       ['14', 70, 110],
-      ['15', 100, null],
+      ['15', 100, 112],
       ['16', 110, null],
       ['17', 120, null],
       ['18', 90, null],
@@ -247,7 +204,6 @@ var cloneArray = function() {
 Object.defineProperty( Object.prototype, "cloneArray", {value: cloneArray, enumerable: false});
     
 function updateDataBySliderValue(sliderValue) {
-    console.log('updateDataBySliderValue: ' + sliderValue);
     var data = rawData.cloneArray();
   
     for (var i=0;i<data.length;i++) {
@@ -274,8 +230,6 @@ function updateDataBySliderValue(sliderValue) {
       //  data[i][1] = null;
     }
     
-    console.log(data);
-    
     var data = google.visualization.arrayToDataTable(data);
     
     $('#lastyear .energy').text(totalLastYear);
@@ -290,7 +244,6 @@ function drawAreaChart() {
 }
 
 function updateIcecreams(target, progress) {
-    console.log('updateIcecreams with target' + target);
     $container = $('.progress .icecreams');
     $container.html('');
     
@@ -298,7 +251,6 @@ function updateIcecreams(target, progress) {
     $('.progress .earn_value').text(progress);
     
     for(var i=0;i<target;i++) {
-        console.log('adding icecream');
         if (i < progress) {
             $container.append('<div class="icecream_small icecream_small_on"></div>');
         } else {
@@ -318,16 +270,43 @@ $(function() {
                 return;
             }
             updateDataBySliderValue(ui.value);
-            var leftPos = $('a.ui-slider-handle').css('left');
-            $('#slider_data').css('left', leftPos);
+            var leftPos = $('a.ui-slider-handle').css('left');   
+            $('.middlecontainer').css('left', leftPos);
+            
             $('#slider_data').css('display','block');
-            $('#slider_data #date').text(currentDayOfMonth+1);
+            $('#slider_data #date').text(ui.value);
         }
     });
 });
 
 $('body').ready(function() {
     updateIcecreams(target,progress);
+    
+    var data = rawData.cloneArray();
+  
+    for (var i=0;i<data.length;i++) {
+        data[i][0] = '•';
+    }
+ 
+    var totalThisYear = 0;
+    var totalLastYear = 0;
+    
+    // sum up usage up until the cutoff point
+    for (var i=0;i<data.length;i++) {
+        if (data[i][2]) {
+            totalThisYear += parseInt(data[i][2]);
+        }
+        
+        if (data[i][1]) {
+            totalLastYear += parseInt(data[i][1]);
+        }
+    }
+    
+    console.log('totalLastYear: ' + totalLastYear);
+    console.log('totalThisYear: ' + totalThisYear);
+    
+    $('.lastyear .val').text(totalLastYear);
+    $('.thisyear .val').text(totalThisYear);
           
     $('a.button').click(function() {
       if ($(this).hasClass('plus')) {
@@ -339,6 +318,7 @@ $('body').ready(function() {
               target--;
           }
       }
+      
       $('.target .value').text(target);
       updateIcecreams(target,progress);
     });

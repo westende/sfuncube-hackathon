@@ -155,6 +155,7 @@ body {
 }
 #network-status img {
     float: left;
+    margin-top: 50px;
 }
 .status-pos {
     background: transparent url('img/arrow_green.png');
@@ -229,6 +230,10 @@ body {
     color: #FF89C8;
 }
 
+.right {
+    margin-left: 160px;
+}
+
 .block {
     width:10px;
     height:10px;
@@ -247,4 +252,13 @@ body {
     display:inline-block;
     background-color: #FF89C8;
     margin-top: -147px;
+}
+
+.dollar {
+    margin-top: 10px;
+}
+
+.kilowatt {
+    margin-top: px;
+    font-size: 12px;
 }

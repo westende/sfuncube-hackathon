@@ -123,6 +123,10 @@ function setProgress() {
   }
 
   progress *= UNIT_PRICE;
+
+  window.progress = Math.round(progress / PRICE_PER_ICECREAM);
+
+  updateIcecreams(target, window.progress);
 }
 
 function getLatestReading() {
@@ -151,7 +155,6 @@ google.setOnLoadCallback(drawAreaChart);
 
 var chart;
 var target = 5;
-var progress = 1;
 var areaChart;
 var currentDayOfMonth = 15;
 
@@ -233,7 +236,7 @@ function updateDataBySliderValue(sliderValue) {
 
     var dayThisYear = data[sliderValue-1][2];
     var dayLastYear = data[sliderValue-1][1];
-    
+
     // sum up usage up until the cutoff point
     for (var i=0;i<sliderValue;i++) {
         if (data[i][2]) {
@@ -242,10 +245,6 @@ function updateDataBySliderValue(sliderValue) {
         
         if (data[i][1]) {
             totalLastYear += parseInt(data[i][1]);
-
-            if (data[i][2]) {
-              progress = totalLastYear - totalThisYear;
-            }
         }
     }
    
@@ -351,7 +350,7 @@ $('body').ready(function() {
               target--;
           }
       }
-      
+
       $('.target .value').text(target);
       updateIcecreams(target,progress);
     });

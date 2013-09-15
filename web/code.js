@@ -230,6 +230,13 @@ function updateDataBySliderValue(sliderValue) {
   
     for (var i=0;i<data.length;i++) {
         data[i][0] = '•';
+        if (data[i][2]) {
+            data[i][2] /= 2;
+        }
+        
+        if (data[i][1]) {
+            data[i][1] /= 2;
+        }
     }
  
     var totalThisYear = 0;

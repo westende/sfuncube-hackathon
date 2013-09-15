@@ -154,6 +154,14 @@ body {
 .status-neg {
     background: transparent url('img/arrow_red.png');
 }
+.status-null {
+    background: transparent url('img/x-icon.png');
+}
+
+#usage-status {
+    margin-top: 1em;
+    text-align: center;
+}
 
 /*#area_div { width: 900px; height: 300px; }
 #slider { width: 300px; position: absolute;

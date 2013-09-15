@@ -1,5 +1,6 @@
 var API_KEY= 'BSup0ifQbuh2_NSrxZUUcKsgjtJxuf0_';
 var WUNDERGROUND_API_KEY = '5794ac21ec0b9cbb';
+var UNIT_PRICE = 170; // Per kW
 
 // Network status logic
 (function() {
@@ -21,6 +22,22 @@ var WUNDERGROUND_API_KEY = '5794ac21ec0b9cbb';
     var usage = data.reading / 1000;
     var gridUsage = usage - sunPower;
 
+    if (gridUsage > 0) {
+      $('#usage-status-label').html('Spending:');
+      $('#usage-status-amount').css({ 'color': '#FF0000' });
+    }
+    else {
+      $('#usage-status-label').html('Earning:');
+      $('#usage-status-amount').css({ 'color': '#00FF00' });
+    }
+
+    $('#usage-status-amount').html('$ ' + Math.abs(gridUsage * UNIT_PRICE).toFixed(2) + ' hour');
+  });
+
+  $(window).on('newEnergyReading', function(ev, data) {
+    var usage = data.reading / 1000;
+    var gridUsage = usage - sunPower;
+
     if (gridUsage < 0) {
       gridUsage = -1;
     }
@@ -35,12 +52,14 @@ var WUNDERGROUND_API_KEY = '5794ac21ec0b9cbb';
       if (gridUsage < 0) {
         $('#network-status-grid').hide()
           .removeClass('status-neg')
+          .removeClass('status-null')
           .addClass('status-pos')
           .fadeIn('slow');
       }
       else if (gridUsage > 0) {
         $('#network-status-grid').hide()
           .removeClass('status-pos')
+          .removeClass('status-null')
           .addClass('status-neg')
           .fadeIn('slow');
       }
@@ -48,6 +67,7 @@ var WUNDERGROUND_API_KEY = '5794ac21ec0b9cbb';
         $('#network-status-grid').hide()
           .removeClass('status-pos')
           .removeClass('status-neg')
+          .addClass('status-null')
           .fadeIn('slow');
       }
     }
@@ -63,12 +83,14 @@ var WUNDERGROUND_API_KEY = '5794ac21ec0b9cbb';
       if (!sunPower && energy || sunPower && !energy) {
         if (energy > 0) {
           $('#network-status-solar').hide()
+            .removeClass('status-null')
             .addClass('status-pos')
             .fadeIn('slow');
         }
         else {
           $('#network-status-solar').hide()
             .removeClass('status-pos')
+            .addClass('status-null')
             .fadeIn('slow');
         }
       }

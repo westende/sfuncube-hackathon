@@ -342,6 +342,8 @@ $('body').ready(function() {
         }
     }
     
+    $('.day_of_month').text(currentDayOfMonth);
+    
     $('.lastyear .val').text(totalLastYear);
     $('.thisyear .val').text(totalThisYear);
           

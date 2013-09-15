@@ -146,7 +146,7 @@ body {
 #network-status {
     overflow: auto;
 }
-.network-status-icon {
+.network-* {
     display: block;
     float: left;
     width: 30px;

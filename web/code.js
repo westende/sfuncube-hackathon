@@ -32,7 +32,7 @@ var PRICE_PER_ICECREAM = 2.00;
       $('#usage-status-amount').css({ 'color': '#00FF00' });
     }
 
-    $('#usage-status-amount').html('$ ' + Math.abs(gridUsage * UNIT_PRICE).toFixed(2) + ' hour');
+    $('#usage-status-amount').html('$ ' + Math.abs(gridUsage * UNIT_PRICE).toFixed(2) + ' / hour');
   });
 
   $(window).on('newEnergyReading', function(ev, data) {
@@ -156,6 +156,7 @@ var areaChart;
 var currentDayOfMonth = 15;
 
 var rawData = [
+['dummy', null, null],
       ['1', 100, 40],
       ['2', 90, 50],
       ['3', 80, 100],
@@ -231,8 +232,8 @@ function updateDataBySliderValue(sliderValue) {
     var totalThisYear = 0;
     var totalLastYear = 0;
 
-    var dayThisYear = data[sliderValue-1][2];
-    var dayLastYear = data[sliderValue-1][1];
+    var kwDayThisYear = data[sliderValue-1][2];
+    var kwDayLastYear = data[sliderValue-1][1];
     
     // sum up usage up until the cutoff point
     for (var i=0;i<sliderValue;i++) {
@@ -257,11 +258,11 @@ function updateDataBySliderValue(sliderValue) {
 
     var data = google.visualization.arrayToDataTable(data);
    
-    $('#lastyear .day').text(dayLastYear);
-    $('#thisyear .day').text(dayThisYear);
-    
-    $('#lastyear .total').text(totalLastYear);
-    $('#thisyear .total').text(totalThisYear);
+    $('.kilowatt .lastyear .val').text(kwDayLastYear);
+    $('.kilowatt .thisyear .val').text(kwDayThisYear);
+ 
+    $('.dollar .lastyear .val').text(Math.abs(kwDayLastYear * UNIT_PRICE).toFixed(2));
+    $('.dollar .thisyear .val').text(Math.abs(kwDayThisYear * UNIT_PRICE).toFixed(2) );
     
     areaChart.draw(data, areaOptions);
 }
@@ -293,7 +294,7 @@ $(function() {
         min: 1,
         value: currentDayOfMonth,
         slide: function( event, ui ) {
-            if (ui.value > currentDayOfMonth) {
+            if (ui.value > currentDayOfMonth || ui.value < 1) {
                 event.cancel();
                 return;
             }
@@ -334,9 +335,6 @@ $('body').ready(function() {
             totalLastYear += parseInt(data[i][1]);
         }
     }
-    
-    console.log('totalLastYear: ' + totalLastYear);
-    console.log('totalThisYear: ' + totalThisYear);
     
     $('.lastyear .val').text(totalLastYear);
     $('.thisyear .val').text(totalThisYear);

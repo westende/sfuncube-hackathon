@@ -34,14 +34,20 @@
 
     <div class="graphcontent">
         <div id="slider_data">
-            <div>SEPTEMBER <span id="date"></span></div>
-            <div><br>2013 <span id="thisyear">Day <span class="day"></span> kWh</div>
-            <div>2012 <span id="lastyear">Day <span class="day"></span> kWh</div>
+            <div class="slider_header">SEPTEMBER <span id="date"></span></div>
+            <div class="dollar">
+                <span class="thisyear">$<span class="val"></span></span>
+                <span class="lastyear">/ $<span class="val"></span></span>
+            </div>
+            <div class="kilowatt">
+                <span class="thisyear"><span class="val"></span> kWh</span>
+                <span class="lastyear">/ <span class="val"></span> kWh</span>
+            </div>
         </div>
         <div id="area_div"></div>
         <div id="slider"></div>
-        <div class="totalusage lastyear"><span class="block"></span>September 2012 Total Usage: <span class="val"></span> kWh</div>
-        <div class="totalusage thisyear"><span class="block"></span>September 2013 Total Usage: <span class="val"></span> kWh</div>
+        <div class="totalusage lastyear"><span class="block"></span>September 2012 Total Usage<span class="right"><span class="val"></span> kWh</span></div>
+        <div class="totalusage thisyear"><span class="block"></span>September 2013 Total Usage<span class="right"><span class="val"></span> kWh</span></div>
     </div>
     <div id="network-status" class="big-ass-font-size">
         <img src="img/sun_icon.png" />

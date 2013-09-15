@@ -213,7 +213,13 @@ body {
     top: -30px;
 }
 
-#slider_data { display: none;}
+#slider_data {
+    display: none;
+    border: 2px solid #FF89C8;
+    border-radius: 5px;
+    padding: 10px;
+
+}
 
 .totalusage {
     line-height: 20px;
@@ -233,4 +239,12 @@ body {
 
 .thisyear .block {
     background-color: #FF89C8;
+}
+
+#vertical_bar {
+    height: 100px;
+    width: 2px;
+    display:inline-block;
+    background-color: #FF89C8;
+    margin-top: -147px;
 }

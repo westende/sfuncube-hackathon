@@ -137,6 +137,19 @@ function getLatestReading() {
         contentType: 'application/json',
         success: function(data) {
           var wattage = data[0].reading;
+          
+          var date = new Date(data[0].timestamp);
+          // hours part from the timestamp
+          var hours = date.getHours();
+          // minutes part from the timestamp
+          var minutes = date.getMinutes();
+          // seconds part from the timestamp
+          var seconds = date.getSeconds();
+
+          // will display time in 10:30:23 format
+          var formattedTime = hours + ':' + minutes + ':' + seconds;
+          
+          console.log("Power reading: " + wattage + "W at timestamp " + formattedTime);
 
           $(window).trigger('newEnergyReading', { 'reading': wattage });
             

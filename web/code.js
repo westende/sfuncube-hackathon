@@ -73,8 +73,8 @@ function insertReading(reading) {
 google.load('visualization', '1', {packages:['corechart']});
 google.setOnLoadCallback(initCharts);
 var chart;
-var goal = 5;
-var onTrack = 1;
+var target = 5;
+var progress = 1;
 
 var chartOptions = {
  width: 200, height: 200,
@@ -208,6 +208,24 @@ function drawAreaChart() {
 function initCharts() {   
   //  drawAreaChart();
 }
+
+function updateIcecreams(target, progress) {
+    console.log('updateIcecreams with target' + target);
+    $container = $('.progress .icecreams');
+    $container.html('');
+    
+    $('.target .value').text(target);
+    $('.progress .earn_value').text(progress);
+    
+    for(var i=0;i<target;i++) {
+        console.log('adding icecream');
+        if (i < progress) {
+            $container.append('<div class="icecream_small icecream_small_on"></div>');
+        } else {
+            $container.append('<div class="icecream_small"></div>');
+        }
+    }
+}
    
 // $(function() {
 //     $( "#slider" ).slider({
@@ -230,19 +248,19 @@ function initCharts() {
 
 
 $('body').ready(function() {
-    $('.target .value').text(goal);
-    $('.progress .earn_value').text(onTrack);
-    
+    updateIcecreams(target,progress);
+          
     $('a.button').click(function() {
       if ($(this).hasClass('plus')) {
-          if (goal < 10) {
-              goal++;
+          if (target < 10) {
+              target++;
           }
       } else {
-          if (goal > 0) {
-              goal--;
+          if (target > 1) {
+              target--;
           }
       }
-      $('.target .value').text(goal);
+      $('.target .value').text(target);
+      updateIcecreams(target,progress);
     });
 });

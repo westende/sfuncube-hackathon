@@ -135,6 +135,26 @@ body {
      background-image: url('img/ice_cream_small_on.png');
 }
 
+#network-status {
+    overflow: auto;
+}
+.network-status-icon {
+    display: block;
+    float: left;
+    width: 30px;
+    height: 25px;
+    margin: 30px 50px;
+}
+#network-status img {
+    float: left;
+}
+.status-pos {
+    background: transparent url('img/arrow_green.png');
+}
+.status-neg {
+    background: transparent url('img/arrow_red.png');
+}
+
 /*#area_div { width: 900px; height: 300px; }
 #slider { width: 300px; position: absolute;
 bottom: 115px; left: 125px; width:900px; width: 670px;}

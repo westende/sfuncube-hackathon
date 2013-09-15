@@ -70,9 +70,11 @@ function insertReading(reading) {
     });   
 }
 
-google.load('visualization', '1', {packages:['gauge', 'corechart']});
+google.load('visualization', '1', {packages:['corechart']});
 google.setOnLoadCallback(initCharts);
 var chart;
+var goal = 5;
+var onTrack = 1;
 
 var chartOptions = {
  width: 200, height: 200,
@@ -204,57 +206,43 @@ function drawAreaChart() {
 }
 
 function initCharts() {   
-    drawAreaChart();
-   // drawGauge();
-}
-
-function drawGauge() {
-    chart = new google.visualization.Gauge(document.getElementById('area_div'));
-    var chartData = google.visualization.arrayToDataTable([
-     ['Label', 'Value'],
-     ['Power (W)', 0],
-    ]);
-    
-    chart.draw(chartData, chartOptions);
-    setInterval(getLatestReading, 5000);
-    
-    var data = google.visualization.arrayToDataTable([
-      ['', '2013', '2012'],
-      ['',  109, 120],
-    ]);
-
-    var options = {
-      title: 'Power usage (Wh)',
-    //  vAxis: {title: 'Year',  titleTextStyle: {color: 'red'}}
-    };
-
-    var chart2 = new google.visualization.BarChart(document.getElementById('bar_div'));
-    chart2.draw(data, options);
-    
-    
+  //  drawAreaChart();
 }
    
-$(function() {
-    $( "#slider" ).slider({
-        max: 30,
-        min: 1,
-        value: currentDayOfMonth,
-        slide: function( event, ui ) {
-            if (ui.value > currentDayOfMonth) {
-                event.cancel();
-                return;
-            }
-            updateDataBySliderValue(ui.value);
-            var leftPos = $('a.ui-slider-handle').css('left');
-            $('#slider_data').css('left', leftPos);
-            $('#slider_data').css('display','block');
-            $('#slider_data #date').text(currentDayOfMonth+1);
-        }
+// $(function() {
+//     $( "#slider" ).slider({
+//         max: 30,
+//         min: 1,
+//         value: currentDayOfMonth,
+//         slide: function( event, ui ) {
+//             if (ui.value > currentDayOfMonth) {
+//                 event.cancel();
+//                 return;
+//             }
+//             updateDataBySliderValue(ui.value);
+//             var leftPos = $('a.ui-slider-handle').css('left');
+//             $('#slider_data').css('left', leftPos);
+//             $('#slider_data').css('display','block');
+//             $('#slider_data #date').text(currentDayOfMonth+1);
+//         }
+//     });
+// });
+
+
+$('body').ready(function() {
+    $('.target .value').text(goal);
+    $('.progress .earn_value').text(onTrack);
+    
+    $('a.button').click(function() {
+      if ($(this).hasClass('plus')) {
+          if (goal < 10) {
+              goal++;
+          }
+      } else {
+          if (goal > 0) {
+              goal--;
+          }
+      }
+      $('.target .value').text(goal);
     });
 });
-
-//listDbs();
-//listCollections();
-//listObjects();
-//insertReading(44);
-//getLatestReading();

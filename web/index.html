@@ -1,18 +1,36 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-    <title>Ice-Cream-Ohmeter</title>
+    <title>Ice Cream Ohmeter</title>
 </head>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script type='text/javascript' src='https://www.google.com/jsapi'></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script type='text/javascript' src='https://www.google.com/jsapi'></script>
 <script src="code.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <link rel="stylesheet" href="style.css">
 <body>
-    <h1>Ice-Cream-Ohmmeter</h1>
-    <div id='gauge_div'></div>
-    <div id="graph">
+    <div class="banner title">Ice&mdash;Cream&mdash;Ohmeter</div>
+    <div class="banner subtitle">September &mdash; 15  &mdash; 2013</div>
+    <div class="top_content">
+        <div class="sidecontent target">
+            <div class="circle_content">
+                <div class="caption">goal</div>
+                <a class="button minus"></a>
+                <span class="value">X</span>
+                <a class="button plus"></a>
+            </div>
+        </div>
+        <div class="centercontent"><div class="icecream_large"></div></div>
+        <div class="sidecontent progress">
+             <div class="circle_content">
+                <div class="caption">progress</div>
+                <div class="icecream_small"></div><div class="icecream_small icecream_small_on"></div>
+                <div class="description">You're on track to earn <span class="earn_value"></span> ice creams this month!</div>
+            </div>  
+        </div>
+    </div>
+    <!-- <div id="graph">
         <div id="area_div"></div>
         <div id="slider"></div>
         <div id="slider_data">
@@ -21,7 +39,7 @@
             <div>This year <span id="thisyear">$<span class="cost"></span><span class="energy"> kWh</span></span></div>
         </div>
     </div>
-    <div id='chart_div'></div><div id="bar_div" style="width: 900px; height: 100px;"></div>
+    <div id='chart_div'></div><div id="bar_div" style="width: 450; height: 200;"></div>
 
     <div id="network-status" class="big-ass-font-size">
         <span>Sun</span>
@@ -29,6 +47,6 @@
         <span>House</span>
         <span id="network-status-grid"></span>
         <span>Grid</span>
-    </div>
+    </div> -->
 </body>
 </html>

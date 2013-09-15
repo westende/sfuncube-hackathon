@@ -13,6 +13,8 @@ body {
 
 .big-ass-font-size {
     font-size: 2em;
+    display: table;
+    margin: 0 auto;
 }
 
 .banner {
@@ -131,6 +133,11 @@ body {
     color: #999999;
 }
 
+.graphcontent {
+    display: table;
+    margin: 0 auto;
+}
+
 .icecream_small_on {
      background-image: url('img/ice_cream_small_on.png');
 }
@@ -155,8 +162,46 @@ body {
     background: transparent url('img/arrow_red.png');
 }
 
-/*#area_div { width: 900px; height: 300px; }
-#slider { width: 300px; position: absolute;
-bottom: 115px; left: 125px; width:900px; width: 670px;}
-.ui-widget-content { background: none; border: none;}
-#slider_data { position: relative; top: -300px; display: none;}*/
+.ui-widget-content {
+    border: none;
+    background: none;
+}
+
+.ui-slider-handle {
+    border: none !important;
+    background: url('img/slider_circle.png') !important;
+    width: 15px !important;
+    height: 15px !important;
+    margin-left: -7px !important;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.share {
+    position: absolute;
+    top: 10px;
+    right: 40px;
+}
+
+.bottomcontent {
+    border-top: 2px solid white;
+    background: #FF89C8 url('img/ice_cream_footer.png') no-repeat;
+    background-position: 300px 60px;
+    padding: 90px 0px 0px 400px;
+    color: white;
+    line-height: 25px;
+    height: 300px;
+}
+
+.copyright {
+    width:100%;
+    margin-top: 200px;
+    margin-left: -200px;
+    text-align: center;
+}
+
+#slider {
+    top: -30px;
+}
+
+#slider_data { position: relative; top: -200px; display: none;}

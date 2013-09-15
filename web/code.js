@@ -126,18 +126,6 @@ function insertReading(reading) {
     });   
 }
 
-google.load('visualization', '1', {packages:['corechart']});
-google.setOnLoadCallback(initCharts);
-var chart;
-var target = 5;
-var progress = 1;
-
-var chartOptions = {
- width: 200, height: 200,
- redFrom: 90, redTo: 100,
- yellowFrom:75, yellowTo: 90,
- minorTicks: 5
-};
 
 function getLatestReading() {
     var API_KEY= 'BSup0ifQbuh2_NSrxZUUcKsgjtJxuf0_';
@@ -160,8 +148,15 @@ function getLatestReading() {
     });        
 }
 
+google.load('visualization', '1', {packages:['corechart']});
+google.setOnLoadCallback(drawAreaChart);
+
+var chart;
+var target = 5;
+var progress = 1;
 var areaChart;
 var currentDayOfMonth = 14;
+
 var rawData = [
       ['dummy', null, null],
       ['1', 100, 40],
@@ -196,11 +191,21 @@ var rawData = [
       ['30', 50, null]
     ];
     
+var graphWidth = 500;
+var graphHeight = 150;
+    
 var areaOptions = {
-  hAxis: null,
-  vAxis: {minValue: 0, maxValue: 200},
-  legend: { position: 'none'},
-  tooltip: { trigger: 'none'}
+    width: graphWidth,
+    height: graphHeight+20,
+    hAxis: null,
+    vAxis: {minValue: 0, maxValue: 200},
+    legend: { position: 'none'},
+    tooltip: { trigger: 'none'},
+    chartArea: {top: 0, left: 0, width: graphWidth, height: graphHeight-20},
+    areaOpacity: 0.7,
+    backgroundColor: { fill: 'transparent' },
+    vAxis: { gridlines: {color: 'transparent'} },
+    colors: ['#999999', '#FF89C8']
 };
 
 var cloneArray = function() {
@@ -244,7 +249,7 @@ function updateDataBySliderValue(sliderValue) {
     // clear out data after cutoff
     for (var i=sliderValue+1;i<data.length;i++) {
         data[i][2] = null;
-        data[i][1] = null;
+      //  data[i][1] = null;
     }
     
     console.log(data);
@@ -260,10 +265,6 @@ function updateDataBySliderValue(sliderValue) {
 function drawAreaChart() {
     areaChart = new google.visualization.AreaChart(document.getElementById('area_div'));
     updateDataBySliderValue(30);
-}
-
-function initCharts() {   
-  //  drawAreaChart();
 }
 
 function updateIcecreams(target, progress) {
@@ -284,25 +285,24 @@ function updateIcecreams(target, progress) {
     }
 }
    
-// $(function() {
-//     $( "#slider" ).slider({
-//         max: 30,
-//         min: 1,
-//         value: currentDayOfMonth,
-//         slide: function( event, ui ) {
-//             if (ui.value > currentDayOfMonth) {
-//                 event.cancel();
-//                 return;
-//             }
-//             updateDataBySliderValue(ui.value);
-//             var leftPos = $('a.ui-slider-handle').css('left');
-//             $('#slider_data').css('left', leftPos);
-//             $('#slider_data').css('display','block');
-//             $('#slider_data #date').text(currentDayOfMonth+1);
-//         }
-//     });
-// });
-
+$(function() {
+    $( "#slider" ).slider({
+        max: 30,
+        min: 1,
+        value: currentDayOfMonth,
+        slide: function( event, ui ) {
+            if (ui.value > currentDayOfMonth) {
+                event.cancel();
+                return;
+            }
+            updateDataBySliderValue(ui.value);
+            var leftPos = $('a.ui-slider-handle').css('left');
+            $('#slider_data').css('left', leftPos);
+            $('#slider_data').css('display','block');
+            $('#slider_data #date').text(currentDayOfMonth+1);
+        }
+    });
+});
 
 $('body').ready(function() {
     updateIcecreams(target,progress);

@@ -1,6 +1,7 @@
 var API_KEY= 'BSup0ifQbuh2_NSrxZUUcKsgjtJxuf0_';
 var WUNDERGROUND_API_KEY = '5794ac21ec0b9cbb';
-var UNIT_PRICE = 170; // Per kW
+var UNIT_PRICE = 0.17; // Per kW
+var PRICE_PER_ICECREAM = 2.00;
 
 // Network status logic
 (function() {
@@ -105,6 +106,24 @@ var UNIT_PRICE = 170; // Per kW
     setInterval(setNetworkStatus, 10000);
   });
 })();
+
+function setProgress() {
+  var data = rawData.cloneArray();
+  var progress = 0;
+
+  for (var i=0;i<data.length;i++) {
+    data[i][0] = '•';
+  }
+
+  // sum up usage up until the cutoff point
+  for (var i=0;i<30;i++) {
+    if (data[i][1] && data[i][2]) {
+      progress = data[i][2] - data[i][1];
+    }
+  }
+
+  progress *= UNIT_PRICE;
+}
 
 function getLatestReading() {
     var API_KEY= 'BSup0ifQbuh2_NSrxZUUcKsgjtJxuf0_';
@@ -212,6 +231,7 @@ function updateDataBySliderValue(sliderValue) {
  
     var totalThisYear = 0;
     var totalLastYear = 0;
+    var progress = 0;
 
     // sum up usage up until the cutoff point
     for (var i=0;i<sliderValue;i++) {
@@ -221,6 +241,10 @@ function updateDataBySliderValue(sliderValue) {
         
         if (data[i][1]) {
             totalLastYear += parseInt(data[i][1]);
+
+            if (data[i][2]) {
+              progress = totalLastYear - totalThisYear;
+            }
         }
     }
    
@@ -229,7 +253,7 @@ function updateDataBySliderValue(sliderValue) {
         data[i][2] = null;
       //  data[i][1] = null;
     }
-    
+
     var data = google.visualization.arrayToDataTable(data);
     
     $('#lastyear .energy').text(totalLastYear);
@@ -277,6 +301,8 @@ $(function() {
             $('#slider_data #date').text(ui.value);
         }
     });
+
+    setProgress();
 });
 
 $('body').ready(function() {

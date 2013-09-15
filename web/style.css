@@ -136,6 +136,7 @@ body {
 .graphcontent {
     display: table;
     margin: 0 auto;
+    text-align: center;
 }
 
 .icecream_small_on {
@@ -204,4 +205,24 @@ body {
     top: -30px;
 }
 
-#slider_data { position: relative; top: -200px; display: none;}
+#slider_data { display: none;}
+
+.totalusage {
+    line-height: 20px;
+}
+
+.thisyear {
+    color: #FF89C8;
+}
+
+.block {
+    width:10px;
+    height:10px;
+    background-color: #666666;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.thisyear .block {
+    background-color: #FF89C8;
+}

@@ -1,31 +1,85 @@
 var API_KEY= 'BSup0ifQbuh2_NSrxZUUcKsgjtJxuf0_';
 var WUNDERGROUND_API_KEY = '5794ac21ec0b9cbb';
 
-function getSunPowerStatus(callback) {
-    $.ajax({
-        url : 'http://api.wunderground.com/api/' + WUNDERGROUND_API_KEY + '/conditions/q/CA/San_Francisco.json',
-        data: null,
-        dataType: "jsonp",
-        success: function(data) {
-            callback(data.current_observation.UV);
-        }
-    });
-}
+// Network status logic
+(function() {
+  var sunPower = 0;
+  var previousGridUsage = 0;
 
-$(function() {
-    getSunPowerStatus(function(energy) {
+  function getSunPowerStatus(callback) {
+      $.ajax({
+          url : 'http://api.wunderground.com/api/' + WUNDERGROUND_API_KEY + '/conditions/q/CA/San_Francisco.json',
+          data: null,
+          dataType: "jsonp",
+          success: function(data) {
+              callback(data.current_observation.UV);
+          }
+      });
+  }
+
+  $(window).on('newEnergyReading', function(ev, data) {
+    var usage = data.reading / 1000;
+    var gridUsage = usage - sunPower;
+
+    if (gridUsage < 0) {
+      gridUsage = -1;
+    }
+    else if (gridUsage > 0) {
+      gridUsage = 1;
+    }
+    else {
+      gridUsage = 0;
+    }
+
+    if (gridUsage != previousGridUsage) {
+      if (gridUsage < 0) {
+        $('#network-status-grid').hide()
+          .html('=>')
+          .fadeIn('slow');
+      }
+      else if (gridUsage > 0) {
+        $('#network-status-grid').hide()
+          .html('<=')
+          .fadeIn('slow');
+      }
+      else {
+        $('#network-status-grid').hide()
+          .html('=X>')
+          .fadeIn('slow');
+      }
+    }
+
+    previousGridUsage = gridUsage;
+  });
+
+  function setNetworkStatus() {
+    energy = 0.03;
+
+    //getSunPowerStatus(function(energy) {
+      // If the value changed
+      if (!sunPower && energy || sunPower && !energy) {
         if (energy > 0) {
-            $('#network-status-solar').hide()
-                .html('=>')
-                .fadeIn('slow');
+          $('#network-status-solar').hide()
+            .html('=>')
+            .fadeIn('slow');
         }
         else {
-            $('#network-status-solar').hide()
-                .html('=X>')
-                .fadeIn('slow');
+          $('#network-status-solar').hide()
+            .html('=X>')
+            .fadeIn('slow');
         }
-    });
-});
+      }
+      sunPower = energy;
+    //});
+
+    getLatestReading();
+  }
+
+  $(function() {
+    setNetworkStatus();
+    setInterval(setNetworkStatus, 10000);
+  });
+})();
 
 function listDbs() {
     $.ajax({
@@ -89,14 +143,16 @@ function getLatestReading() {
         type: 'GET',
         contentType: 'application/json',
         success: function(data) {
-            var wattage = data[0].reading;
+          var wattage = data[0].reading;
+
+          $(window).trigger('newEnergyReading', { 'reading': wattage });
             
-            var chartData = google.visualization.arrayToDataTable([
-             ['Label', 'Value'],
-             ['Power', wattage],
-            ]);
-            
-            chart.draw(chartData, chartOptions);
+          /*var chartData = google.visualization.arrayToDataTable([
+           ['Label', 'Value'],
+           ['Power', wattage],
+          ]);
+
+          chart.draw(chartData, chartOptions);*/
         }
     });        
 }

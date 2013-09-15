@@ -343,7 +343,13 @@ $('body').ready(function() {
     }
     
     $('.day_of_month').text(currentDayOfMonth);
-    
+
+    var totalDollarLastYear = (totalLastYear * UNIT_PRICE).toFixed(2);
+    var totalDollarThisYear = (totalThisYear * UNIT_PRICE).toFixed(2);
+
+    $('.lastyear .dollar-val').text(totalDollarLastYear);
+    $('.thisyear .dollar-val').text(totalDollarThisYear);
+
     $('.lastyear .val').text(totalLastYear);
     $('.thisyear .val').text(totalThisYear);
           

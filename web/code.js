@@ -104,6 +104,7 @@ var PRICE_PER_ICECREAM = 2.00;
   $(function() {
     setNetworkStatus();
     setInterval(setNetworkStatus, 10000);
+    setInterval(getLatestReading, 1000);
   });
 })();
 

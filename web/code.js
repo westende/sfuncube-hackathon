@@ -34,17 +34,20 @@ var WUNDERGROUND_API_KEY = '5794ac21ec0b9cbb';
     if (gridUsage != previousGridUsage) {
       if (gridUsage < 0) {
         $('#network-status-grid').hide()
-          .html('=>')
+          .removeClass('status-neg')
+          .addClass('status-pos')
           .fadeIn('slow');
       }
       else if (gridUsage > 0) {
         $('#network-status-grid').hide()
-          .html('<=')
+          .removeClass('status-pos')
+          .addClass('status-neg')
           .fadeIn('slow');
       }
       else {
         $('#network-status-grid').hide()
-          .html('=X>')
+          .removeClass('status-pos')
+          .removeClass('status-neg')
           .fadeIn('slow');
       }
     }
@@ -60,12 +63,12 @@ var WUNDERGROUND_API_KEY = '5794ac21ec0b9cbb';
       if (!sunPower && energy || sunPower && !energy) {
         if (energy > 0) {
           $('#network-status-solar').hide()
-            .html('=>')
+            .addClass('status-pos')
             .fadeIn('slow');
         }
         else {
           $('#network-status-solar').hide()
-            .html('=X>')
+            .removeClass('status-pos')
             .fadeIn('slow');
         }
       }
@@ -112,7 +115,6 @@ function listObjects() {
 }
 
 function insertReading(reading) {
-    var API_KEY= 'BSup0ifQbuh2_NSrxZUUcKsgjtJxuf0_';
     $.ajax({
         url : 'https://api.mongolab.com/api/1/databases/p1data/collections/live?apiKey=' + API_KEY,
         data: JSON.stringify( { 'timestamp' : new Date().getTime(), 'reading' : reading } ),
@@ -138,7 +140,6 @@ var chartOptions = {
 };
 
 function getLatestReading() {
-    console.log('getting reading');
     var API_KEY= 'BSup0ifQbuh2_NSrxZUUcKsgjtJxuf0_';
     $.ajax({
         url : 'https://api.mongolab.com/api/1/databases/p1data/collections/live?apiKey=' + API_KEY + '&s={"timestamp" : -1}&l=1',

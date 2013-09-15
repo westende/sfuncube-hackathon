@@ -137,7 +137,6 @@ var areaChart;
 var currentDayOfMonth = 15;
 
 var rawData = [
-      ['dummy', null, null],
       ['1', 100, 40],
       ['2', 90, 50],
       ['3', 80, 100],
@@ -212,7 +211,9 @@ function updateDataBySliderValue(sliderValue) {
  
     var totalThisYear = 0;
     var totalLastYear = 0;
-
+    var dayThisYear = data[sliderValue-1][2];
+    var dayLastYear = data[sliderValue-1][1];
+    
     // sum up usage up until the cutoff point
     for (var i=0;i<sliderValue;i++) {
         if (data[i][2]) {
@@ -231,9 +232,12 @@ function updateDataBySliderValue(sliderValue) {
     }
     
     var data = google.visualization.arrayToDataTable(data);
+   
+    $('#lastyear .day').text(dayLastYear);
+    $('#thisyear .day').text(dayThisYear);
     
-    $('#lastyear .energy').text(totalLastYear);
-    $('#thisyear .energy').text(totalThisYear);
+    $('#lastyear .total').text(totalLastYear);
+    $('#thisyear .total').text(totalThisYear);
     
     areaChart.draw(data, areaOptions);
 }
@@ -270,10 +274,13 @@ $(function() {
                 return;
             }
             updateDataBySliderValue(ui.value);
-            var leftPos = $('a.ui-slider-handle').css('left');   
-            $('.middlecontainer').css('left', leftPos);
-            
-            $('#slider_data').css('display','block');
+            var leftPosStr = $('a.ui-slider-handle').css('left'); 
+            var leftPos = parseInt(leftPosStr.substr(0,leftPosStr.length-2));  
+            var width = $('#area_div').width();
+            var pos = -width+leftPos*2;
+            $('#slider_data').css('margin-left', pos+150);
+           // $('#vertical_bar').css('margin-left', -width+leftPos*2);
+            $('#slider_data').css('display','inline-block');
             $('#slider_data #date').text(ui.value);
         }
     });

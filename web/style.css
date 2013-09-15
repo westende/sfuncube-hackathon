@@ -169,7 +169,7 @@ body {
 }
 
 #usage-status {
-    margin: 2em 0 6em;
+    margin: 0 0 6em;
     text-align: center;
 }
 
@@ -195,20 +195,29 @@ body {
 }
 
 .bottomcontent {
+    position: relative;
     border-top: 2px solid white;
-    background: #FF89C8 url('img/ice_cream_footer.png') no-repeat;
-    background-position: 300px 60px;
-    padding: 110px 0px 0px 400px;
     color: white;
     line-height: 25px;
     height: 300px;
+    background: #FF89C8;
+}
+
+.bottomcontent-container {
+    background: url('img/ice_cream_footer.png') no-repeat;
+    background-position: 540px 60px;
+    padding: 110px 0px 0px 630px;
+    height: 150px;
+    font-size: 1.2em;
+    font-weight: bold;
 }
 
 .copyright {
-    width:100%;
-    margin-top: 200px;
-    margin-left: -200px;
+    position: absolute;
+    bottom: 0;
     text-align: center;
+    width: 100%;
+    font-size: 0.8em;
 }
 
 #slider {
